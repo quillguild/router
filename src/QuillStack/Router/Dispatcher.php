@@ -101,7 +101,7 @@ final class Dispatcher implements DispatcherInterface
      */
     private function findRoute(array &$routeFinder, array $branch): ?Route
     {
-        foreach($branch as $key) {
+        foreach ($branch as $key) {
             $found = &$routeFinder[$key];
 
             if (!$found) {
