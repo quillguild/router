@@ -41,7 +41,7 @@ final class Route implements RouteInterface
     /**
      * {@inheritDoc}
      */
-    public function setName(string $name): self
+    public function setName(string $name): RouteInterface
     {
         $this->name = $name;
 

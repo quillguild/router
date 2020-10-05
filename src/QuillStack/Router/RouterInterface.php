@@ -11,17 +11,26 @@ interface RouterInterface
      * @param string $controller
      * @codeCoverageIgnore
      *
-     * @return $this
+     * @return RouterInterface
      */
-    public function get(string $path, string $controller): self;
+    public function get(string $path, string $controller): RouterInterface;
+
+    /**
+     * @param string $path
+     * @param string $controller
+     * @codeCoverageIgnore
+     *
+     * @return RouterInterface
+     */
+    public function post(string $path, string $controller): RouterInterface;
 
     /**
      * @param string $name
      * @codeCoverageIgnore
      *
-     * @return $this
+     * @return RouterInterface
      */
-    public function name(string $name): self;
+    public function name(string $name): RouterInterface;
 
     /**
      * @codeCoverageIgnore

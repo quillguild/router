@@ -25,6 +25,7 @@ final class ComplexWildcardRouteTest extends AbstractTest
         $path = '/user/:id/:name/:test/:dir/:number/:more/:count/:animal/:age/:name';
         $router = new Router();
         $router->get($path, MockUserController::class)->name('user');
+        $router->post($path, MockUserController::class)->name('user.post');
         $router->get('/register', MockRegisterController::class)->name('register');
         $router->get('/login', MockLoginController::class)->name('login');
         $route = $this->getRoute($router);

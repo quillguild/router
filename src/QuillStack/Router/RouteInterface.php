@@ -10,9 +10,9 @@ interface RouteInterface
      * @param string $name
      * @codeCoverageIgnore
      *
-     * @return $this
+     * @return RouteInterface
      */
-    public function setName(string $name): self;
+    public function setName(string $name): RouteInterface;
 
     /**
      * @codeCoverageIgnore

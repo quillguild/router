@@ -79,14 +79,6 @@ final class Router implements RouterInterface
     /**
      * {@inheritDoc}
      */
-    public function get(string $path, string $controller): self
-    {
-        return $this->add(ServerRequest::METHOD_GET, $path, $controller);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function name(string $name): self
     {
         $this->currentRoute->setName($name);
@@ -114,5 +106,21 @@ final class Router implements RouterInterface
     public function getTree(): array
     {
         return $this->tree;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function get(string $path, string $controller): RouterInterface
+    {
+        return $this->add(ServerRequest::METHOD_GET, $path, $controller);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function post(string $path, string $controller): RouterInterface
+    {
+        return $this->add(ServerRequest::METHOD_POST, $path, $controller);
     }
 }
