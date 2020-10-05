@@ -8,12 +8,15 @@ interface RouteInterface
 {
     /**
      * @param string $name
+     * @codeCoverageIgnore
      *
      * @return $this
      */
     public function setName(string $name): self;
 
     /**
+     * @codeCoverageIgnore
+     *
      * @return string
      */
     public function getName(): string;

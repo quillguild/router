@@ -10,6 +10,7 @@ interface DispatcherInterface
 {
     /**
      * @param ServerRequestInterface $serverRequest
+     * @codeCoverageIgnore
      *
      * @return Route|null
      */
