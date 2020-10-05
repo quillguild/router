@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace QuillStack\Router;
 
+use QuillStack\Http\Request\ServerRequest;
+
 final class Router implements RouterInterface
 {
     /**
@@ -79,7 +81,7 @@ final class Router implements RouterInterface
      */
     public function get(string $path, string $controller): self
     {
-        return $this->add(Route::METHOD_GET, $path, $controller);
+        return $this->add(ServerRequest::METHOD_GET, $path, $controller);
     }
 
     /**
@@ -95,7 +97,7 @@ final class Router implements RouterInterface
 
     private function updateCurrentRoute(): void
     {
-        $this->routes[$this->currentRoute->key] = $this->currentRoute;
+        $this->routes[$this->currentRoute->getKey()] = $this->currentRoute;
     }
 
     /**

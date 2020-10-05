@@ -22,16 +22,14 @@ final class ComplexWildcardRouteTest extends AbstractTest
 
     public function testSimpleWildcardRoute()
     {
+        $path = '/user/:id/:name/:test/:dir/:number/:more/:count/:animal/:age/:name';
         $router = new Router();
-        $router->get(
-            '/user/:id/:name/:test/:dir/:number/:more/:count/:animal/:age/:name',
-            MockUserController::class
-        )->name('user');
+        $router->get($path, MockUserController::class)->name('user');
         $router->get('/register', MockRegisterController::class)->name('register');
         $router->get('/login', MockLoginController::class)->name('login');
         $route = $this->getRoute($router);
 
-        $this->assertEquals('GET /user/:id/:name/:test/:dir/:number/:more/:count/:animal/:age/:name', $route->key);
+        $this->assertEquals("GET {$path}", $route->getKey());
         $this->assertEquals('user', $route->getName());
     }
 }

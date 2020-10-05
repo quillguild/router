@@ -29,6 +29,6 @@ final class SimpleRouteTest extends AbstractTest
         $route = $this->getRoute($router);
 
         $this->assertEquals('login', $route->getName());
-        $this->assertEquals('GET /login', $route->key);
+        $this->assertEquals('GET /login', $route->getKey());
     }
 }
