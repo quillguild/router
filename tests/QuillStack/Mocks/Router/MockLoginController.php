@@ -12,6 +12,5 @@ final class MockLoginController implements RequestHandlerInterface
 {
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-
     }
 }

@@ -22,16 +22,16 @@ final class RouterTest extends TestCase
     public const SERVER = [
         'REQUEST_METHOD' => 'GET',
         'HTTP_HOST' => 'localhost:8000',
-        'REQUEST_URI' => '/login',
+        'REQUEST_URI' => '/user/1/ala',
         'SERVER_PROTOCOL' => '1.1',
     ];
 
     public function testRouter()
     {
         $router = new Router();
-        $router->get('/register/user/new', MockRegisterController::class)->name('register');
+        $router->get('/user/:id/:ala', MockRegisterController::class)->name('register');
         $router->get('/login', MockLoginController::class)->name('login');
-        $router->get('/user/:id', MockUserController::class)->name('register');
+        $router->get('/user/:id/ala', MockUserController::class)->name('register');
 
         $container = new Container([
             StreamInterface::class => InputStream::class,
@@ -47,6 +47,6 @@ final class RouterTest extends TestCase
         $dispatcher = new Dispatcher($router);
         $route = $dispatcher->dispatch($request);
 
-        $this->assertEquals('GET /login', $route->key);
+        $this->assertEquals('GET /user/:id/ala', $route->key);
     }
 }

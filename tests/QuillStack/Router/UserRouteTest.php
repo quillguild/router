@@ -46,7 +46,6 @@ final class UserRouteTest extends TestCase
 
         $dispatcher = new Dispatcher($router);
         $route = $dispatcher->dispatch($request);
-        dd($route);
 
         $this->assertEquals('register', $route->getName());
     }

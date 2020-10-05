@@ -12,6 +12,5 @@ final class MockRegisterController implements RequestHandlerInterface
 {
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-
     }
 }

@@ -4,20 +4,38 @@ declare(strict_types=1);
 
 namespace QuillStack\Router;
 
-final class Router
+final class Router implements RouterInterface
 {
+    /**
+     * @var array
+     */
     private array $routes;
+
+    /**
+     * @var Route
+     */
     private Route $currentRoute;
+
+    /**
+     * @var array
+     */
     private array $tree = [];
 
-    private function applyChain(&$arr, $indexes, $value)
+    /**
+     * @param $tree
+     * @param $indexes
+     * @param $value
+     */
+    private function applyChain(&$tree, $indexes, $value)
     {
         if (!is_array($indexes)) {
             return;
         }
 
         if (count($indexes) === 0) {
-            $arr = $this->currentRoute;
+            $tree = [
+                '' => $this->currentRoute
+            ];
         } else {
             $index = array_shift($indexes);
 
@@ -25,22 +43,34 @@ final class Router
                 $index = '*';
             }
 
-            $this->applyChain($arr[$index], $indexes, $value);
+            $this->applyChain($tree[$index], $indexes, $value);
         }
     }
 
-    private function hasWildcard(string $path)
+    /**
+     * @param string $path
+     *
+     * @return bool
+     */
+    private function hasWildcard(string $path): bool
     {
-        return strstr($path, ':');
+        return is_string(strstr($path, ':'));
     }
 
-    public function get(string $path, string $controller): self
+    /**
+     * @param string $method
+     * @param string $path
+     * @param string $controller
+     *
+     * @return $this
+     */
+    private function add(string $method, string $path, string $controller): self
     {
-        $this->currentRoute = new Route(Route::METHOD_GET, $path, $controller);
+        $this->currentRoute = new Route($method, $path, $controller);
         $this->updateCurrentRoute();
 
         if ($this->hasWildcard($path)) {
-            $treePath = Route::METHOD_GET . $path;
+            $treePath = $method . $path;
             $parts = explode('/', trim($treePath, '/'));
             $this->applyChain($this->tree, $parts, array());
         }
@@ -48,6 +78,17 @@ final class Router
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function get(string $path, string $controller): self
+    {
+        return $this->add(Route::METHOD_GET, $path, $controller);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function name(string $name): self
     {
         $this->currentRoute->setName($name);
@@ -61,11 +102,17 @@ final class Router
         $this->routes[$this->currentRoute->key] = $this->currentRoute;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getRoutes(): array
     {
         return $this->routes;
     }
 
+    /**
+     * @return array
+     */
     public function getTree(): array
     {
         return $this->tree;
