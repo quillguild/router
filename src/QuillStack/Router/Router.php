@@ -28,10 +28,6 @@ final class Router implements RouterInterface
      */
     private function applyChain(&$tree, $indexes, $value)
     {
-        if (!is_array($indexes)) {
-            return;
-        }
-
         if (count($indexes) === 0) {
             $tree = [
                 '' => $this->currentRoute
