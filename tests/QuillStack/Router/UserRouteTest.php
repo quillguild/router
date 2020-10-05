@@ -17,21 +17,21 @@ use QuillStack\Mocks\Router\MockLoginController;
 use QuillStack\Mocks\Router\MockRegisterController;
 use QuillStack\Mocks\Router\MockUserController;
 
-final class RouterTest extends TestCase
+final class UserRouteTest extends TestCase
 {
     public const SERVER = [
         'REQUEST_METHOD' => 'GET',
         'HTTP_HOST' => 'localhost:8000',
-        'REQUEST_URI' => '/login',
+        'REQUEST_URI' => '/user/13/test',
         'SERVER_PROTOCOL' => '1.1',
     ];
 
     public function testRouter()
     {
         $router = new Router();
-        $router->get('/register/user/new', MockRegisterController::class)->name('register');
+        $router->get('/user/:id/:name', MockUserController::class)->name('register');
+        $router->get('/register', MockRegisterController::class)->name('register');
         $router->get('/login', MockLoginController::class)->name('login');
-        $router->get('/user/:id', MockUserController::class)->name('register');
 
         $container = new Container([
             StreamInterface::class => InputStream::class,
@@ -46,7 +46,8 @@ final class RouterTest extends TestCase
 
         $dispatcher = new Dispatcher($router);
         $route = $dispatcher->dispatch($request);
+        dd($route);
 
-        $this->assertEquals('GET /login', $route->key);
+        $this->assertEquals('register', $route->getName());
     }
 }
