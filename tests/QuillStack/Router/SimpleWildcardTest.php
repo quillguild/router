@@ -30,5 +30,6 @@ final class SimpleWildcardTest extends AbstractTest
 
         $this->assertEquals('GET /user/:id/:name', $route->getKey());
         $this->assertEquals('user', $route->getName());
+        $this->assertEquals(MockUserController::class, $route->getController());
     }
 }

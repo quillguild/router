@@ -32,5 +32,6 @@ final class ComplexWildcardRouteTest extends AbstractTest
 
         $this->assertEquals("GET {$path}", $route->getKey());
         $this->assertEquals('user', $route->getName());
+        $this->assertEquals(MockUserController::class, $route->getController());
     }
 }

@@ -63,4 +63,12 @@ final class Route implements RouteInterface
     {
         return "{$this->method} {$this->path}";
     }
+
+    /**
+     * @return string
+     */
+    public function getController(): string
+    {
+        return $this->controller;
+    }
 }

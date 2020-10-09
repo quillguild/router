@@ -31,5 +31,6 @@ final class RouteWithPostRequestTest extends AbstractTest
 
         $this->assertEquals('login.post', $route->getName());
         $this->assertEquals('POST /login', $route->getKey());
+        $this->assertEquals(MockLoginController::class, $route->getController());
     }
 }
