@@ -19,25 +19,53 @@ use QuillStack\Router\Router;
 
 abstract class AbstractTest extends TestCase
 {
+    /**
+     * @var array
+     */
     public const SERVER = [];
+
+    /**
+     * @var string
+     */
     public const REQUEST = '';
+
+    /**
+     * @var Container
+     */
+    private Container $container;
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function setUp(): void
+    {
+        $config = [
+            StreamInterface::class => InputStream::class,
+            UriFactoryInterface::class => UriFactory::class,
+            RequestFromGlobalsFactory::class => [
+                'server' => static::SERVER,
+            ],
+        ];
+
+        $this->container = new Container($config);
+    }
 
     /**
      * @return ServerRequestInterface
      */
     public function getRequest(): ServerRequestInterface
     {
-        $container = new Container([
-            StreamInterface::class => InputStream::class,
-            UriFactoryInterface::class => UriFactory::class,
-            RequestFromGlobalsFactory::class => [
-                'server' => static::SERVER,
-            ],
-        ]);
-
-        $factory = $container->get(GivenRequestFromGlobalsFactory::class);
+        $factory = $this->container->get(GivenRequestFromGlobalsFactory::class);
 
         return $factory->createGivenServerRequest(static::REQUEST);
+    }
+
+    /**
+     * @return Router
+     */
+    public function getRouter(): Router
+    {
+        return $this->container->get(Router::class);
     }
 
     /**
@@ -47,7 +75,7 @@ abstract class AbstractTest extends TestCase
      */
     public function getRoute(Router $router): ?Route
     {
-        $dispatcher = new Dispatcher($router);
+        $dispatcher = $this->container->get(Dispatcher::class);
 
         return $dispatcher->dispatch(
             $this->getRequest()

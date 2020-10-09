@@ -5,21 +5,19 @@ declare(strict_types=1);
 namespace QuillStack\Router;
 
 use Psr\Http\Message\ServerRequestInterface;
+use QuillStack\Router\RouteTree\RouteTreeFinder;
 
 final class Dispatcher implements DispatcherInterface
 {
     /**
      * @var Router
      */
-    private Router $router;
+    public Router $router;
 
     /**
-     * @param Router $router
+     * @var RouteTreeFinder
      */
-    public function __construct(Router $router)
-    {
-        $this->router = $router;
-    }
+    public RouteTreeFinder $routeTreeFinder;
 
     /**
      * {@inheritDoc}
@@ -54,7 +52,7 @@ final class Dispatcher implements DispatcherInterface
         $key = $this->getKeyForWildcardMatch($serverRequest);
         $tree = $this->router->getTree();
 
-        return $this->findRoute(
+        return $this->routeTreeFinder->findRoute(
             $tree,
             $this->getBranch($key)
         );
@@ -91,30 +89,5 @@ final class Dispatcher implements DispatcherInterface
     private function getKeyForWildcardMatch(ServerRequestInterface $serverRequest): string
     {
         return $serverRequest->getMethod() . $serverRequest->getRequestTarget();
-    }
-
-    /**
-     * @param array $routeFinder
-     * @param array $branch
-     *
-     * @return Route|null
-     */
-    private function findRoute(array &$routeFinder, array $branch): ?Route
-    {
-        foreach ($branch as $key) {
-            $found = &$routeFinder[$key];
-
-            if (!$found) {
-                $routeFinder = &$routeFinder['*'];
-            } else {
-                $routeFinder = $found;
-            }
-        }
-
-        if ($routeFinder instanceof Route) {
-            return $routeFinder;
-        }
-
-        return null;
     }
 }

@@ -22,7 +22,7 @@ final class RouteWithPostRequestTest extends AbstractTest
 
     public function testPostRoute()
     {
-        $router = new Router();
+        $router = $this->getRouter();
         $router->post('/login', MockLoginController::class)->name('login.post');
         $router->get('/login', MockLoginController::class)->name('login.get');
         $router->get('/user/:id/ala', MockUserController::class)->name('user');

@@ -22,7 +22,7 @@ final class SimpleWildcardTest extends AbstractTest
 
     public function testSimpleWildcardRoute()
     {
-        $router = new Router();
+        $router = $this->getRouter();
         $router->get('/user/:id/:name', MockUserController::class)->name('user');
         $router->get('/register', MockRegisterController::class)->name('register');
         $router->get('/login', MockLoginController::class)->name('login');

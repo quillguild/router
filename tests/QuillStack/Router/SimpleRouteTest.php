@@ -22,7 +22,7 @@ final class SimpleRouteTest extends AbstractTest
 
     public function testSimpleRoute()
     {
-        $router = new Router();
+        $router = $this->getRouter();
         $router->get('/login', MockLoginController::class)->name('login');
         $router->get('/user/:id/ala', MockUserController::class)->name('user');
         $router->get('/register', MockRegisterController::class)->name('register');

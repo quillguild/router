@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace QuillStack\Router;
 
 use QuillStack\Http\Request\ServerRequest;
+use QuillStack\Router\RouteTree\RouteTreeBuilder;
 
 final class Router implements RouterInterface
 {
@@ -24,36 +25,9 @@ final class Router implements RouterInterface
     private array $tree = [];
 
     /**
-     * @param $tree
-     * @param $indexes
-     * @param $value
+     * @var RouteTreeBuilder
      */
-    private function applyChain(&$tree, $indexes, $value)
-    {
-        if (count($indexes) === 0) {
-            $tree = [
-                '' => $this->currentRoute
-            ];
-        } else {
-            $index = array_shift($indexes);
-
-            if ($this->hasWildcard($index)) {
-                $index = '*';
-            }
-
-            $this->applyChain($tree[$index], $indexes, $value);
-        }
-    }
-
-    /**
-     * @param string $path
-     *
-     * @return bool
-     */
-    private function hasWildcard(string $path): bool
-    {
-        return is_string(strstr($path, ':'));
-    }
+    public RouteTreeBuilder $routeTreeBuilder;
 
     /**
      * @param string $method
@@ -66,12 +40,7 @@ final class Router implements RouterInterface
     {
         $this->currentRoute = new Route($method, $path, $controller);
         $this->updateCurrentRoute();
-
-        if ($this->hasWildcard($path)) {
-            $treePath = $method . $path;
-            $parts = explode('/', trim($treePath, '/'));
-            $this->applyChain($this->tree, $parts, array());
-        }
+        $this->routeTreeBuilder->build($this->tree, $this->currentRoute, $method, $path);
 
         return $this;
     }
