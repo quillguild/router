@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace QuillStack\Mocks\Request;
 
-use QuillStack\Http\Request\ServerRequest;
+use QuillStack\Http\Request\Request;
 
-final class MockLoginRequest extends ServerRequest
+final class MockLoginRequest extends Request
 {
 }

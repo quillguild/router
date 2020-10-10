@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace QuillStack\Router;
 
-use QuillStack\Http\Request\ServerRequest;
+use QuillStack\Http\Request\Request;
 use QuillStack\Router\RouteTree\RouteTreeBuilder;
 
 final class Router implements RouterInterface
@@ -82,7 +82,7 @@ final class Router implements RouterInterface
      */
     public function get(string $path, string $controller): RouterInterface
     {
-        return $this->add(ServerRequest::METHOD_GET, $path, $controller);
+        return $this->add(Request::METHOD_GET, $path, $controller);
     }
 
     /**
@@ -90,6 +90,6 @@ final class Router implements RouterInterface
      */
     public function post(string $path, string $controller): RouterInterface
     {
-        return $this->add(ServerRequest::METHOD_POST, $path, $controller);
+        return $this->add(Request::METHOD_POST, $path, $controller);
     }
 }
