@@ -20,4 +20,25 @@ interface RouteInterface
      * @return string
      */
     public function getName(): string;
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @return string
+     */
+    public function getController(): string;
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @return bool
+     */
+    public function isSuccess(): bool;
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @return string
+     */
+    public function getKey(): string;
 }

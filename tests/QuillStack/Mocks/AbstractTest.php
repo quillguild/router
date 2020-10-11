@@ -15,6 +15,7 @@ use QuillStack\Http\Stream\InputStream;
 use QuillStack\Http\Uri\Factory\UriFactory;
 use QuillStack\Router\Dispatcher;
 use QuillStack\Router\Route;
+use QuillStack\Router\RouteInterface;
 use QuillStack\Router\Router;
 
 abstract class AbstractTest extends TestCase
@@ -73,7 +74,7 @@ abstract class AbstractTest extends TestCase
      *
      * @return Route|null
      */
-    public function getRoute(Router $router): ?Route
+    public function getRoute(Router $router): ?RouteInterface
     {
         $dispatcher = $this->container->get(Dispatcher::class);
 

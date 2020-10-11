@@ -9,6 +9,7 @@ use QuillStack\Mocks\Request\MockLoginRequest;
 use QuillStack\Mocks\Router\MockLoginController;
 use QuillStack\Mocks\Router\MockRegisterController;
 use QuillStack\Mocks\Router\MockUserController;
+use QuillStack\Router\Routes\NotFoundRoute;
 
 final class RouteNotFoundTest extends AbstractTest
 {
@@ -28,6 +29,8 @@ final class RouteNotFoundTest extends AbstractTest
         $router->get('/register', MockRegisterController::class)->name('register');
         $route = $this->getRoute($router);
 
-        $this->assertNull($route);
+        $this->assertInstanceOf(NotFoundRoute::class, $route);
+        $this->assertEquals('', $route->getController());
+        $this->assertFalse($route->isSuccess());
     }
 }

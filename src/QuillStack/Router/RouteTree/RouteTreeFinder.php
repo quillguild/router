@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace QuillStack\Router\RouteTree;
 
-use QuillStack\Router\Route;
+use QuillStack\Router\RouteInterface;
 
 final class RouteTreeFinder
 {
@@ -12,9 +12,9 @@ final class RouteTreeFinder
      * @param array $routeFinder
      * @param array $branch
      *
-     * @return Route|null
+     * @return RouteInterface|null
      */
-    public function findRoute(array &$routeFinder, array $branch): ?Route
+    public function findRoute(array &$routeFinder, array $branch): ?RouteInterface
     {
         foreach ($branch as $key) {
             $found = &$routeFinder[$key];
@@ -26,7 +26,7 @@ final class RouteTreeFinder
             }
         }
 
-        if ($routeFinder instanceof Route) {
+        if ($routeFinder instanceof RouteInterface) {
             return $routeFinder;
         }
 

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace QuillStack\Router\RouteTree;
 
-use QuillStack\Router\Route;
+use QuillStack\Router\RouteInterface;
 
 final class RouteTreeBuilder
 {
     /**
      * @param array $tree
-     * @param Route $route
+     * @param RouteInterface $route
      * @param string $method
      * @param string $path
      */
-    public function build(array &$tree, Route $route, string $method, string $path): void
+    public function build(array &$tree, RouteInterface $route, string $method, string $path): void
     {
         if (!$this->hasWildcard($path)) {
             return;
@@ -27,12 +27,12 @@ final class RouteTreeBuilder
     }
 
     /**
-     * @param Route $route
+     * @param RouteInterface $route
      * @param array $indexes
      * @param array|null $tree
      * @param array $value
      */
-    private function add(Route $route, array $indexes, array &$tree = null, array $value = []): void
+    private function add(RouteInterface $route, array $indexes, array &$tree = null, array $value = []): void
     {
         if (count($indexes) === 0) {
             $tree = [

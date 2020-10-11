@@ -57,7 +57,7 @@ final class Route implements RouteInterface
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getKey(): string
     {
@@ -65,10 +65,18 @@ final class Route implements RouteInterface
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getController(): string
     {
         return $this->controller;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isSuccess(): bool
+    {
+        return true;
     }
 }

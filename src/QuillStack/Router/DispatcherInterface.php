@@ -12,7 +12,7 @@ interface DispatcherInterface
      * @param ServerRequestInterface $serverRequest
      * @codeCoverageIgnore
      *
-     * @return Route|null
+     * @return RouteInterface|null
      */
-    public function dispatch(ServerRequestInterface $serverRequest): ?Route;
+    public function dispatch(ServerRequestInterface $serverRequest): ?RouteInterface;
 }

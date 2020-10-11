@@ -31,5 +31,6 @@ final class SimpleRouteTest extends AbstractTest
         $this->assertEquals('login', $route->getName());
         $this->assertEquals('GET /login', $route->getKey());
         $this->assertEquals(MockLoginController::class, $route->getController());
+        $this->assertTrue($route->isSuccess());
     }
 }

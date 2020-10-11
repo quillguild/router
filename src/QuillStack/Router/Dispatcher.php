@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace QuillStack\Router;
 
 use Psr\Http\Message\ServerRequestInterface;
+use QuillStack\Router\Routes\NotFoundRoute;
 use QuillStack\Router\RouteTree\RouteTreeFinder;
 
 final class Dispatcher implements DispatcherInterface
@@ -20,9 +21,14 @@ final class Dispatcher implements DispatcherInterface
     public RouteTreeFinder $routeTreeFinder;
 
     /**
+     * @var string
+     */
+    public string $routeNotFoundController = '';
+
+    /**
      * {@inheritDoc}
      */
-    public function dispatch(ServerRequestInterface $serverRequest): ?Route
+    public function dispatch(ServerRequestInterface $serverRequest): ?RouteInterface
     {
         $exactMatch = $this->findExactMatch($serverRequest);
 
@@ -34,7 +40,7 @@ final class Dispatcher implements DispatcherInterface
      *
      * @return Route|null
      */
-    private function findExactMatch(ServerRequestInterface $serverRequest): ?Route
+    private function findExactMatch(ServerRequestInterface $serverRequest): ?RouteInterface
     {
         $routes = $this->router->getRoutes();
         $key = $this->getKeyForExactMatch($serverRequest);
@@ -47,15 +53,21 @@ final class Dispatcher implements DispatcherInterface
      *
      * @return Route|null
      */
-    private function findWildcardMatch(ServerRequestInterface $serverRequest): ?Route
+    private function findWildcardMatch(ServerRequestInterface $serverRequest): ?RouteInterface
     {
         $key = $this->getKeyForWildcardMatch($serverRequest);
         $tree = $this->router->getTree();
-
-        return $this->routeTreeFinder->findRoute(
+        $route = $this->routeTreeFinder->findRoute(
             $tree,
             $this->getBranch($key)
         );
+
+        return $route ?? $this->getRouteNotFound();
+    }
+
+    private function getRouteNotFound()
+    {
+        return new NotFoundRoute($this->routeNotFoundController);
     }
 
     /**
